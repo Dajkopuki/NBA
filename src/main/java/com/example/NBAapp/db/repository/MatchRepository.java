@@ -8,11 +8,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+@Component
 public class MatchRepository {
     private final JdbcTemplate jdbcTemplate;
 
@@ -23,7 +24,7 @@ public class MatchRepository {
     }
 
     public Match get (int id) {
-        final String sql = "SELECT * FROM player_statistics WHERE id = "+ id;
+        final String sql = "SELECT * FROM match WHERE id = "+ id;
         try {
             return jdbcTemplate.queryForObject(sql,matchRowMapper);
         } catch (EmptyResultDataAccessException e) {
@@ -32,7 +33,7 @@ public class MatchRepository {
     }
 
     public Integer add (Match Match) {
-        final String sql = "INSERT INTO player_statistics(team1_id, team1_score, team2_id, team2_score) values (?,?,?,?)";
+        final String sql = "INSERT INTO match(team1_id, team1_score, team2_id, team2_score) values (?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override

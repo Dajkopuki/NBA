@@ -15,7 +15,7 @@ public class Player {
     @NonNull
     private Integer TeamId;
     @Nullable
-    private Integer score;
+    private Integer score=1;
 
     public Player () {}
 
@@ -32,6 +32,7 @@ public class Player {
     public void setScore(@Nullable Integer score) {
         this.score = score;
     }
+
 
     @NonNull
     public String getName() {

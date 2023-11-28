@@ -60,6 +60,13 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void updateScore(int id, int score) {
-        teamRepository.updateScore(id,score);
+        Team team =teamRepository.get(id);
+        teamRepository.updateScore(id,team.getScore()+score);
+    }
+
+    @Override
+    public void updateScoreEachPlayer(Team team) {
+        team.getPlayers().forEach(player -> {
+            playerRepository.updateScore(player.getId(),(player.getScore()==null ? 0 : player.getScore())+(playerRepository.get(player.getId()).getScore() == null ? 0 :playerRepository.get(player.getId()).getScore()));});
     }
 }
