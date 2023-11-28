@@ -1,0 +1,47 @@
+package com.example.NBAapp.db.service.imp;
+
+import com.example.NBAapp.db.repository.PlayerRepository;
+import com.example.NBAapp.db.service.api.PlayerService;
+import com.example.NBAapp.domain.Player;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class PlayerServiceImpl  implements PlayerService {
+    private final PlayerRepository playerRepository;
+
+    public PlayerServiceImpl(PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
+    }
+
+    @Override
+    public Player get(int id) {
+        return playerRepository.get(id);
+    }
+
+    @Override
+    public Integer add(Player player) {
+        return playerRepository.add(player);
+    }
+
+    @Override
+    public List<Player> getPlayers() {
+        return playerRepository.getPlayers();
+    }
+
+    @Override
+    public void delete(int id) {
+        playerRepository.delete(id);
+    }
+
+    @Override
+    public void updateScore(int id, int score) {
+    playerRepository.updateScore(id,score);
+    }
+
+    @Override
+    public void updateTeam(int id, int teamId) {
+        playerRepository.updateTeam(id,teamId);
+    }
+}
