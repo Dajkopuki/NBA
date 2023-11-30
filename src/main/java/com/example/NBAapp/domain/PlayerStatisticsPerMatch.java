@@ -13,13 +13,16 @@ public class PlayerStatisticsPerMatch {
     private Integer playerId;
     @NonNull
     private Integer matchIdl;
+    @NonNull
+    private Integer scoreFromMatch;
 
     public PlayerStatisticsPerMatch() {
     }
 
-    public PlayerStatisticsPerMatch(@NonNull Integer playerId, @NonNull Integer matchIdl) {
+    public PlayerStatisticsPerMatch(@NonNull Integer playerId, @NonNull Integer matchIdl,@NonNull Integer scoreFromMatch) {
         this.playerId = playerId;
         this.matchIdl = matchIdl;
+        this.scoreFromMatch = scoreFromMatch;
     }
 
     @Nullable
@@ -49,16 +52,25 @@ public class PlayerStatisticsPerMatch {
         this.matchIdl = matchIdl;
     }
 
+    @NonNull
+    public Integer getScoreFromMatch() {
+        return scoreFromMatch;
+    }
+
+    public void setScoreFromMatch(@NonNull Integer scoreFromMatch) {
+        this.scoreFromMatch = scoreFromMatch;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlayerStatisticsPerMatch that = (PlayerStatisticsPerMatch) o;
-        return Objects.equals(id, that.id) && playerId.equals(that.playerId) && matchIdl.equals(that.matchIdl);
+        return Objects.equals(id, that.id) && playerId.equals(that.playerId) && matchIdl.equals(that.matchIdl) && scoreFromMatch.equals(that.scoreFromMatch);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, playerId, matchIdl);
+        return Objects.hash(id, playerId, matchIdl, scoreFromMatch);
     }
 }

@@ -14,7 +14,7 @@ public class MatchRowMapper implements RowMapper<Match> {
         match.setTeam1Id(rs.getInt("team1_id"));
         match.setTeam1Score(rs.getInt("team1_score"));
         match.setTeam2Id(rs.getInt("team2_id"));
-        match.setTeam2Score(rs.getInt("team1_score"));
+        match.setTeam2Score(rs.getInt("team2_score"));
         return match;
     }
 }

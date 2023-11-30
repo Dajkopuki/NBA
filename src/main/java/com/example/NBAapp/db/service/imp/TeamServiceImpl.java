@@ -64,9 +64,23 @@ public class TeamServiceImpl implements TeamService {
         teamRepository.updateScore(id,team.getScore()+score);
     }
 
+//    @Override
+//    public void updateScoreEachPlayer(Team team) {
+//        team.getPlayers().forEach(player -> {
+//            playerRepository.updateScore(player.getId(),(player.getScore()==null ? 0 : player.getScore())+(playerRepository.get(player.getId()).getScore() == null ? 0 :playerRepository.get(player.getId()).getScore()));});
+//    }
+
     @Override
     public void updateScoreEachPlayer(Team team) {
         team.getPlayers().forEach(player -> {
-            playerRepository.updateScore(player.getId(),(player.getScore()==null ? 0 : player.getScore())+(playerRepository.get(player.getId()).getScore() == null ? 0 :playerRepository.get(player.getId()).getScore()));});
+
+            int playerScore = player.getScore() == null ? 0 : player.getScore();
+//            Player currentPlayer = playerRepository.get(player.getId());
+//            int currentPlayerScore = currentPlayer.getScore() == null ? 0 : currentPlayer.getScore();
+//            int score = playerScore + currentPlayerScore;
+
+            // ulozim skore playera spat do databazy
+            playerRepository.updateScore(player.getId(), playerScore);
+        });
     }
 }

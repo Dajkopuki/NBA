@@ -15,7 +15,7 @@ public class Player {
     @NonNull
     private Integer TeamId;
     @Nullable
-    private Integer score=1;
+    private Integer score;
 
     public Player () {}
 

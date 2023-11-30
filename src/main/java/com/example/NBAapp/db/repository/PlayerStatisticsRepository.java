@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 @Component
 public class PlayerStatisticsRepository {
@@ -32,7 +33,7 @@ public class PlayerStatisticsRepository {
     }
 
     public Integer add (PlayerStatisticsPerMatch playerStatisticsPerMatch) {
-        final String sql = "INSERT INTO player_statistics(player_id, match_id) values (?,?)";
+        final String sql = "INSERT INTO player_statistics(player_id, match_id, score_from_match) values (?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
@@ -40,6 +41,7 @@ public class PlayerStatisticsRepository {
                 PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                 ps.setInt(1, playerStatisticsPerMatch.getPlayerId());
                 ps.setInt(2, playerStatisticsPerMatch.getMatchIdl());
+                ps.setInt(3,playerStatisticsPerMatch.getScoreFromMatch());
                 return ps;
 
             }
@@ -50,6 +52,11 @@ public class PlayerStatisticsRepository {
         } else {
             return null;
         }
+    }
+
+    public List<PlayerStatisticsPerMatch> getPlayerRecord(int playerId) {
+        final String sql = "SELECT * from player_statistics WHERE player_id=?";
+        return jdbcTemplate.query(sql,playerStatisticsRowMapper,playerId);
     }
 
     public void deleteAll() {

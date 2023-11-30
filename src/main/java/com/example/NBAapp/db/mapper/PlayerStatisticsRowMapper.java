@@ -13,6 +13,7 @@ public class PlayerStatisticsRowMapper implements RowMapper<PlayerStatisticsPerM
         playerStatisticsPerMatch.setId(rs.getInt("id"));
         playerStatisticsPerMatch.setPlayerId(rs.getInt("player_id"));
         playerStatisticsPerMatch.setMatchIdl(rs.getInt("match_id"));
+        playerStatisticsPerMatch.setScoreFromMatch(rs.getInt("score_from_match"));
         return playerStatisticsPerMatch;
     }
 }

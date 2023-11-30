@@ -19,6 +19,7 @@ public class GameServiceImpl implements GameService {
     private final PlayerStatisticsRepository playerStatisticsRepository;
 
 
+
     public GameServiceImpl(TeamServiceImpl teamService, MatchRepository matchRepository, PlayerStatisticsRepository playerStatisticsRepository) {
         this.teamService = teamService;
         this.matchRepository = matchRepository;
@@ -46,10 +47,14 @@ public class GameServiceImpl implements GameService {
 
     private void match(Team team1, Team team2) {
         int i, j, scoreGen1 =0, scoreGen2 = 0, totalScore1 =0, totalScore2=0;
+        int[] arrayOfScores1 = new int[team1.getPlayers().size()];
+        int[] arrayOfScores2 = new int[team2.getPlayers().size()];;
         for (j = 0; j < 17; j++) {
             for (i = 0; i < 5; i++) {
                 scoreGen1= scoreGenerator();
                 scoreGen2=scoreGenerator();
+                arrayOfScores1[i] += scoreGen1;
+                arrayOfScores2[i] += scoreGen2;
                 team1.getPlayers().get(i).setScore((team1.getPlayers().get(i).getScore()==null ? 0:team1.getPlayers().get(i).getScore())+scoreGen1);
                 team2.getPlayers().get(i).setScore((team2.getPlayers().get(i).getScore()==null ? 0:team2.getPlayers().get(i).getScore())+scoreGen2);
                 totalScore1 = totalScore1+scoreGen1;
@@ -70,9 +75,14 @@ public class GameServiceImpl implements GameService {
 
         Match match= new Match(team1.getId(),totalScore1,team2.getId(), totalScore2);
         Integer idMatch =matchRepository.add(match);
-        team1.getPlayers().forEach(player ->{
-                PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch);
-                playerStatisticsRepository.add(playerStatisticsPerMatch); });
+        team1.getPlayers().forEach(player ->{ int k =0;
+                PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch,arrayOfScores1[k]);
+                playerStatisticsRepository.add(playerStatisticsPerMatch);
+                k++; });
+        team2.getPlayers().forEach(player ->{ int k =0;
+            PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch,arrayOfScores2[k]);
+            playerStatisticsRepository.add(playerStatisticsPerMatch);
+            k++; });
         teamService.updateScore(team1.getId(),team1.getScore());
         teamService.updateScore(team2.getId(),team2.getScore());
         teamService.updateScoreEachPlayer(team1);

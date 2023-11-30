@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+
 @Component
 public class MatchRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -32,17 +34,17 @@ public class MatchRepository {
         }
     }
 
-    public Integer add (Match Match) {
-        final String sql = "INSERT INTO match(team1_id, team1_score, team2_id, team2_score) values (?,?,?,?)";
+    public Integer add (Match match) {
+        final String sql = "INSERT INTO match (team1_id, team1_score, team2_id, team2_score) values (?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-                ps.setInt(1, Match.getTeam1Id());
-                ps.setInt(2, Match.getTeam1Score());
-                ps.setInt(3, Match.getTeam2Id());
-                ps.setInt(4, Match.getTeam2Score());
+                ps.setInt(1, match.getTeam1Id());
+                ps.setInt(2, match.getTeam1Score());
+                ps.setInt(3, match.getTeam2Id());
+                ps.setInt(4, match.getTeam2Score());
                 return ps;
 
             }
@@ -59,4 +61,6 @@ public class MatchRepository {
         final String sql = "TRUNCATE match";
         jdbcTemplate.update(sql);
     }
+
+
 }

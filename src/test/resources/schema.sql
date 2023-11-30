@@ -25,15 +25,17 @@ CREATE TABLE team (
 DROP TABLE IF EXISTS match;
 CREATE TABLE match (
   id int NOT NULL AUTO_INCREMENT,
-  `team1_id` int NOT NULL,
+  team1_id int NOT NULL,
   team1_score int NOT NULL,
-  `team2_id` int NOT NULL,
+  team2_id int NOT NULL,
   team2_score int NOT NULL
 );
 
 DROP TABLE IF EXISTS player_statistics;
 CREATE TABLE player_statistics (
   id int NOT NULL AUTO_INCREMENT,
-  `player_id` int NOT NULL,
-  match_id int NOT NULL
+  player_id int NOT NULL,
+  match_id int NOT NULL,
+  score_from_match int NOT NULL
 );
+
