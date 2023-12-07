@@ -10,6 +10,6 @@ public interface PlayerService {
     List<Player> getPlayers();
     void delete(int id);
     void updateScore(int id, int score);
-    void updateTeam(int id, int teamId);
+
 
 }

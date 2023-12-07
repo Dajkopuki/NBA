@@ -75,14 +75,19 @@ public class GameServiceImpl implements GameService {
 
         Match match= new Match(team1.getId(),totalScore1,team2.getId(), totalScore2);
         Integer idMatch =matchRepository.add(match);
-        team1.getPlayers().forEach(player ->{ int k =0;
-                PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch,arrayOfScores1[k]);
+        var ref = new Object() {
+            int k = 0;
+            int l = 0;
+        };
+        team1.getPlayers().forEach(player ->{
+                PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch,arrayOfScores1[ref.k]);
                 playerStatisticsRepository.add(playerStatisticsPerMatch);
-                k++; });
-        team2.getPlayers().forEach(player ->{ int k =0;
-            PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch,arrayOfScores2[k]);
+                ref.k++; });
+        int l =0;
+        team2.getPlayers().forEach(player ->{
+            PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch,arrayOfScores2[l]);
             playerStatisticsRepository.add(playerStatisticsPerMatch);
-            k++; });
+            ref.l++; });
         teamService.updateScore(team1.getId(),team1.getScore());
         teamService.updateScore(team2.getId(),team2.getScore());
         teamService.updateScoreEachPlayer(team1);

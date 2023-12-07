@@ -13,7 +13,7 @@ public class Player {
     @NonNull
     private String surname;
     @NonNull
-    private Integer TeamId;
+    private Integer teamId;
     @Nullable
     private Integer score;
 
@@ -22,7 +22,7 @@ public class Player {
     public Player( @NonNull String name, @NonNull String surname, @NonNull Integer teamId) {
         this.name = name;
         this.surname = surname;
-        TeamId = teamId;
+        this.teamId = teamId;
     }
     @Nullable
     public Integer getScore() {
@@ -55,11 +55,11 @@ public class Player {
     }
 
     public Integer getTeamId() {
-        return TeamId;
+        return teamId;
     }
 
     public void setTeamId(Integer teamId) {
-        TeamId = teamId;
+        this.teamId = teamId;
     }
 
     @Nullable

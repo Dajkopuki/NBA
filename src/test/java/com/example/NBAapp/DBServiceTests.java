@@ -1,14 +1,12 @@
 package com.example.NBAapp;
 
 import com.example.NBAapp.db.repository.MatchRepository;
+import com.example.NBAapp.db.repository.PlayerStatisticsRepository;
 import com.example.NBAapp.db.service.api.CouchService;
 import com.example.NBAapp.db.service.api.GameService;
 import com.example.NBAapp.db.service.api.PlayerService;
 import com.example.NBAapp.db.service.api.TeamService;
-import com.example.NBAapp.domain.Couch;
-import com.example.NBAapp.domain.Match;
-import com.example.NBAapp.domain.Player;
-import com.example.NBAapp.domain.Team;
+import com.example.NBAapp.domain.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +37,9 @@ public class DBServiceTests {
     private GameService gameService;
     @Autowired
     private MatchRepository matchRepository;
+
+    @Autowired
+    private PlayerStatisticsRepository playerStatisticsRepository;
 
     private Team team1;
 
@@ -179,6 +180,18 @@ public class DBServiceTests {
 
         System.out.println("ALL PLAYERS SCORE:");
         System.out.println(allPlayersScore);
+
+        Player playerFromDb = playerService.get(3);
+        System.out.println(playerFromDb.getScore());
+        List<PlayerStatisticsPerMatch> playerStatisticsPerMatch = playerStatisticsRepository.getPlayerRecord(3);
+
+        final AtomicReference<Integer> playerScoreTotal = new AtomicReference<>(0);
+
+        playerStatisticsPerMatch.forEach(playerStatisticsPerMatch1 -> {
+            playerScoreTotal.set(playerScoreTotal.get() + playerStatisticsPerMatch1.getScoreFromMatch());
+        });
+
+        System.out.println(playerScoreTotal);
 
 
     }

@@ -80,9 +80,6 @@ public class PlayerRepository {
         jdbcTemplate.update(sql,score,id);
     }
 
-    public void updateTeam(int id, int teamId) {
-        final String sql = "UPDATE player SET teamid = ? WHERE id = ?";
-        jdbcTemplate.update(sql,teamId,id);
-    }
+
 
 }

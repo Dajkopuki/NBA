@@ -40,8 +40,5 @@ public class PlayerServiceImpl  implements PlayerService {
     playerRepository.updateScore(id,score);
     }
 
-    @Override
-    public void updateTeam(int id, int teamId) {
-        playerRepository.updateTeam(id,teamId);
-    }
+
 }
