@@ -3,8 +3,10 @@ package com.example.NBAapp.controller;
 import com.example.NBAapp.db.service.api.TeamService;
 import com.example.NBAapp.domain.Player;
 import com.example.NBAapp.domain.Team;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,10 +21,12 @@ public class TeamController {
     }
 
     @PostMapping
-    public ResponseEntity add(@RequestBody Team team) {
-        Integer id = teamService.add(team);
-        if(id !=null) {
-            return new ResponseEntity<>(id, HttpStatus.CREATED);
+    public ResponseEntity add(@RequestBody @Valid   Team team, BindingResult bindingResult) {
+        if(!bindingResult.hasErrors()) {
+            Integer id = teamService.add(team);
+            if (id != null) {
+                return new ResponseEntity<>(id, HttpStatus.CREATED);
+            }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
@@ -42,10 +46,18 @@ public class TeamController {
         return new ResponseEntity(teams,HttpStatus.OK);
     }
 
-    @GetMapping
-    @RequestMapping("List")
+    @GetMapping("list")
     public ResponseEntity getAllWithList() {
         List<Team> teams = teamService.getTeamsWithList();
         return new ResponseEntity(teams,HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity delete(@PathVariable("id") int id){
+        if (teamService.get(id) !=null) {
+            teamService.delete(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body("Team with id " + id + "does not exist");
     }
 }

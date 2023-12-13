@@ -35,10 +35,7 @@ public class CouchServiceImpl implements CouchService {
         couchRepository.delete(id);
     }
 
-    @Override
-    public void updateTeam(int id, int teamId ) {
-        couchRepository.updateTeam(id, teamId);
-    }
+
 
 
 }

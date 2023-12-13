@@ -1,18 +1,25 @@
 package com.example.NBAapp.domain;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Objects;
 
-public class Team {
+public class Team implements Comparable<Team> {
     @Nullable
+    @Null
     private Integer id;
     @NonNull
-    private String TeamName;
+    @NotNull
+    @Size(max=30)
+    private String teamName;
     @Nullable
-    private Integer Score;
+    @Null
+    private Integer score;
     @Nullable
     private Couch couch;
     @Nullable
@@ -21,16 +28,16 @@ public class Team {
     public Team () {}
 
     public Team(@NonNull String teamName) {
-        TeamName = teamName;
+        this.teamName = teamName;
     }
 
     @NonNull
     public String getTeamName() {
-        return TeamName;
+        return teamName;
     }
 
     public void setTeamName(@NonNull String teamName) {
-        TeamName = teamName;
+        this.teamName = teamName;
     }
 
     @Nullable
@@ -44,11 +51,11 @@ public class Team {
 
     @Nullable
     public Integer getScore() {
-        return Score;
+        return score;
     }
 
     public void setScore(Integer score) {
-        Score = score;
+        this.score = score;
     }
 
     @Nullable
@@ -74,11 +81,20 @@ public class Team {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return Score == team.Score && TeamName.equals(team.TeamName) && Objects.equals(couch, team.couch) && Objects.equals(players, team.players);
+        return score == team.score && teamName.equals(team.teamName) && Objects.equals(couch, team.couch) && Objects.equals(players, team.players);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(TeamName, Score, couch, players);
+        return Objects.hash(teamName, score, couch, players);
     }
+
+    @Override
+    public int compareTo(Team o) {
+        if (this.score != o.getScore()) {
+            return o.getScore()- this.score;
+        }
+        return this.teamName.compareTo(o.getTeamName());
+
+        }
 }

@@ -16,10 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RunWith(SpringRunner.class)
@@ -192,6 +189,10 @@ public class DBServiceTests {
         });
 
         System.out.println(playerScoreTotal);
+
+        List<Team> teams = teamService.getTeams();
+        gameService.sortTeams(teams);
+        teams.forEach(team -> System.out.println(team.getScore()));
 
 
     }

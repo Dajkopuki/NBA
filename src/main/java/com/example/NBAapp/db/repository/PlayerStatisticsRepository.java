@@ -56,7 +56,8 @@ public class PlayerStatisticsRepository {
 
     public List<PlayerStatisticsPerMatch> getPlayerRecord(int playerId) {
         final String sql = "SELECT * from player_statistics WHERE player_id=?";
-        return jdbcTemplate.query(sql,playerStatisticsRowMapper,playerId);
+
+        return jdbcTemplate.query(sql, playerStatisticsRowMapper, playerId);
     }
 
     public void deleteAll() {

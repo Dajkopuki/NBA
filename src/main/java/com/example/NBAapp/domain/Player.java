@@ -1,5 +1,8 @@
 package com.example.NBAapp.domain;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -7,14 +10,20 @@ import java.util.Objects;
 
 public class Player {
     @Nullable
+    @Null
     private Integer id;
     @NonNull
+    @NotNull
+    @Size(max=20)
     private String name;
     @NonNull
+    @NotNull
     private String surname;
     @NonNull
+    @NotNull
     private Integer teamId;
     @Nullable
+    @Null
     private Integer score;
 
     public Player () {}

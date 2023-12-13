@@ -1,13 +1,17 @@
 package com.example.NBAapp.db.service.imp;
 
 import com.example.NBAapp.db.repository.MatchRepository;
+import com.example.NBAapp.db.repository.PlayerRepository;
 import com.example.NBAapp.db.repository.PlayerStatisticsRepository;
+import com.example.NBAapp.db.repository.TeamRepository;
 import com.example.NBAapp.db.service.api.GameService;
 import com.example.NBAapp.domain.Match;
 import com.example.NBAapp.domain.PlayerStatisticsPerMatch;
 import com.example.NBAapp.domain.Team;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -17,13 +21,17 @@ public class GameServiceImpl implements GameService {
     private final TeamServiceImpl teamService;
     private final MatchRepository matchRepository;
     private final PlayerStatisticsRepository playerStatisticsRepository;
+    private final PlayerRepository playerRepository;
+    private final TeamRepository teamRepository;
 
 
 
-    public GameServiceImpl(TeamServiceImpl teamService, MatchRepository matchRepository, PlayerStatisticsRepository playerStatisticsRepository) {
+    public GameServiceImpl(TeamServiceImpl teamService, MatchRepository matchRepository, PlayerStatisticsRepository playerStatisticsRepository, PlayerRepository playerRepository, TeamRepository teamRepository) {
         this.teamService = teamService;
         this.matchRepository = matchRepository;
         this.playerStatisticsRepository = playerStatisticsRepository;
+        this.playerRepository = playerRepository;
+        this.teamRepository = teamRepository;
     }
 
     @Override
@@ -37,12 +45,15 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void restartGame() {
-
+    playerRepository.setScoreToZero();
+    teamRepository.setScoreToZero();
+    matchRepository.deleteAll();
+    playerStatisticsRepository.deleteAll();
     }
 
     @Override
-    public void listResults() {
-
+    public void sortTeams(List<Team> teams) {
+    Collections.sort(teams);
     }
 
     private void match(Team team1, Team team2) {

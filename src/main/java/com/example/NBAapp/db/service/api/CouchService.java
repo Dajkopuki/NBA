@@ -9,6 +9,6 @@ public interface CouchService {
     Integer add(Couch couch);
     List<Couch> getCouches();
     void delete(int id);
-    void updateTeam(int id, int teamId);
+
 
 }

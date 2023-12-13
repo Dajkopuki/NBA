@@ -23,7 +23,7 @@ CREATE TABLE team (
 );
 
 DROP TABLE IF EXISTS match;
-CREATE TABLE match (
+CREATE TABLE matches_record (
   id int NOT NULL AUTO_INCREMENT,
   team1_id int NOT NULL,
   team1_score int NOT NULL,

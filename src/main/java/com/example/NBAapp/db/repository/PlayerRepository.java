@@ -43,11 +43,7 @@ public class PlayerRepository {
                 PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                 ps.setString(1,player.getName());
                 ps.setString(2,player.getSurname());
-                if (player.getTeamId() != null) {
-                    ps.setInt(3, player.getTeamId());
-                } else {
-                    ps.setNull(3, Types.INTEGER);
-                }
+                ps.setInt(3, player.getTeamId());
                 return ps;
 
             }
@@ -78,6 +74,11 @@ public class PlayerRepository {
     public void updateScore(int id, int score) {
         final String sql = "UPDATE player SET score = ? WHERE id = ?";
         jdbcTemplate.update(sql,score,id);
+    }
+
+    public void setScoreToZero() {
+        final String sql ="UPDATE player SET score =0";
+        jdbcTemplate.update(sql);
     }
 
 

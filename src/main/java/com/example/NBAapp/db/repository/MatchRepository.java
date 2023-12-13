@@ -26,7 +26,7 @@ public class MatchRepository {
     }
 
     public Match get (int id) {
-        final String sql = "SELECT * FROM match WHERE id = "+ id;
+        final String sql = "SELECT * FROM matches_record WHERE id = "+ id;
         try {
             return jdbcTemplate.queryForObject(sql,matchRowMapper);
         } catch (EmptyResultDataAccessException e) {
@@ -35,7 +35,7 @@ public class MatchRepository {
     }
 
     public Integer add (Match match) {
-        final String sql = "INSERT INTO match (team1_id, team1_score, team2_id, team2_score) values (?,?,?,?)";
+        final String sql = "INSERT INTO matches_record(team1_id, team1_score, team2_id, team2_score) values (?,?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
@@ -58,7 +58,7 @@ public class MatchRepository {
     }
 
     public void deleteAll() {
-        final String sql = "TRUNCATE match";
+        final String sql = "TRUNCATE matches_record";
         jdbcTemplate.update(sql);
     }
 

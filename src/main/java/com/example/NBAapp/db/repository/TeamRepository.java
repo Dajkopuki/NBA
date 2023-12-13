@@ -66,4 +66,9 @@ public class TeamRepository {
         jdbcTemplate.update(sql,score,id);
     }
 
+    public void setScoreToZero() {
+        final String sql ="UPDATE team SET score =0";
+        jdbcTemplate.update(sql);
+    }
+
 }

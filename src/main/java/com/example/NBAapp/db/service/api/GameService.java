@@ -7,6 +7,6 @@ import java.util.List;
 public interface GameService {
     void game(List<Team> teams);
     void restartGame();
-    void listResults();
+    void sortTeams(List<Team> teams);
 
 }
