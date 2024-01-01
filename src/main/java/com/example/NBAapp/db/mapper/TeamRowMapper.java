@@ -12,7 +12,7 @@ public class TeamRowMapper  implements RowMapper<Team> {
         Team team = new Team();
         team.setId(rs.getInt("id"));
         team.setTeamName(rs.getString("teamname"));
-        team.setScore(rs.getInt("score"));
+        team.setScore(rs.getObject("score")==null ? null :rs.getInt("score"));
         return team;
     }
 }

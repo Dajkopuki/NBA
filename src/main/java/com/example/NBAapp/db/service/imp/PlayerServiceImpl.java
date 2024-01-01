@@ -49,5 +49,10 @@ public class PlayerServiceImpl  implements PlayerService {
         return playerStatisticsRepository.getPlayerRecord(id);
     }
 
+    @Override
+    public void setScoreToZero() {
+        playerRepository.setScoreToZero();
+    }
+
 
 }

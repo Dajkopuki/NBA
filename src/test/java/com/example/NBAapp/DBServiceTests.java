@@ -2,10 +2,7 @@ package com.example.NBAapp;
 
 import com.example.NBAapp.db.repository.MatchRepository;
 import com.example.NBAapp.db.repository.PlayerStatisticsRepository;
-import com.example.NBAapp.db.service.api.CouchService;
-import com.example.NBAapp.db.service.api.GameService;
-import com.example.NBAapp.db.service.api.PlayerService;
-import com.example.NBAapp.db.service.api.TeamService;
+import com.example.NBAapp.db.service.api.*;
 import com.example.NBAapp.domain.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,7 +30,7 @@ public class DBServiceTests {
     @Autowired
     private GameService gameService;
     @Autowired
-    private MatchRepository matchRepository;
+    private MatchService matchService;
 
     @Autowired
     private PlayerStatisticsRepository playerStatisticsRepository;
@@ -159,40 +156,27 @@ public class DBServiceTests {
 
 
         gameService.game(teamService.getTeamsWithList());
-        Match match1 =matchRepository.get(1);
-        Match match2 =matchRepository.get(2);
-        Match match3 =matchRepository.get(3);
-
-        System.out.println(match1.getTeam2Score()+match1.getTeam1Score()+match2.getTeam1Score()+match2.getTeam2Score()+
-                match3.getTeam1Score()+match3.getTeam2Score());
-
-
+        final AtomicReference<Integer> allMatchesScore = new AtomicReference<>(0);
+        matchService.getMatches().forEach(match -> {
+            allMatchesScore.set(allMatchesScore.get()+match.getTeam1Score()+ match.getTeam2Score());
+        });
         final AtomicReference<Integer> allPlayersScore = new AtomicReference<>(0);
-
         playerService.getPlayers().forEach(player -> {
-            System.out.println(player.getScore());
-
             allPlayersScore.set(allPlayersScore.get() + player.getScore());
         });
+        Assert.assertEquals(allMatchesScore.toString(),allPlayersScore.toString());
 
-        System.out.println("ALL PLAYERS SCORE:");
-        System.out.println(allPlayersScore);
 
         Player playerFromDb = playerService.get(3);
-        System.out.println(playerFromDb.getScore());
         List<PlayerStatisticsPerMatch> playerStatisticsPerMatch = playerStatisticsRepository.getPlayerRecord(3);
-
         final AtomicReference<Integer> playerScoreTotal = new AtomicReference<>(0);
-
         playerStatisticsPerMatch.forEach(playerStatisticsPerMatch1 -> {
             playerScoreTotal.set(playerScoreTotal.get() + playerStatisticsPerMatch1.getScoreFromMatch());
         });
+        Assert.assertEquals(playerFromDb.getScore().toString(),playerScoreTotal.toString());
 
-        System.out.println(playerScoreTotal);
 
-        List<Team> teams = teamService.getTeams();
-        gameService.sortTeams(teams);
-        teams.forEach(team -> System.out.println(team.getScore()));
+
 
 
     }

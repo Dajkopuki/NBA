@@ -1,16 +1,12 @@
 package com.example.NBAapp.db.service.imp;
 
-import com.example.NBAapp.db.repository.MatchRepository;
-import com.example.NBAapp.db.repository.PlayerRepository;
-import com.example.NBAapp.db.repository.PlayerStatisticsRepository;
 import com.example.NBAapp.db.repository.TeamRepository;
-import com.example.NBAapp.db.service.api.GameService;
+import com.example.NBAapp.db.service.api.*;
 import com.example.NBAapp.domain.Match;
 import com.example.NBAapp.domain.PlayerStatisticsPerMatch;
 import com.example.NBAapp.domain.Team;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -19,20 +15,18 @@ import java.util.Random;
 public class GameServiceImpl implements GameService {
 
     private final TeamServiceImpl teamService;
-    private final MatchRepository matchRepository;
-    private final PlayerStatisticsRepository playerStatisticsRepository;
-    private final PlayerRepository playerRepository;
-    private final TeamRepository teamRepository;
+    private final MatchService matchService;
+    private final PlayerStatisticsService playerStatisticsService;
+    private final PlayerService playerService;
 
 
-
-    public GameServiceImpl(TeamServiceImpl teamService, MatchRepository matchRepository, PlayerStatisticsRepository playerStatisticsRepository, PlayerRepository playerRepository, TeamRepository teamRepository) {
+    public GameServiceImpl(TeamServiceImpl teamService, MatchService matchService, PlayerStatisticsService playerStatisticsService, PlayerService playerService) {
         this.teamService = teamService;
-        this.matchRepository = matchRepository;
-        this.playerStatisticsRepository = playerStatisticsRepository;
-        this.playerRepository = playerRepository;
-        this.teamRepository = teamRepository;
+        this.matchService = matchService;
+        this.playerStatisticsService = playerStatisticsService;
+        this.playerService = playerService;
     }
+
 
     @Override
     public void game(List<Team> teams) {
@@ -45,10 +39,10 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void restartGame() {
-    playerRepository.setScoreToZero();
-    teamRepository.setScoreToZero();
-    matchRepository.deleteAll();
-    playerStatisticsRepository.deleteAll();
+    playerService.setScoreToZero();
+    teamService.setScoreToZero();
+    matchService.deleteAll();
+    playerStatisticsService.deleteAll();
     }
 
     @Override
@@ -85,19 +79,19 @@ public class GameServiceImpl implements GameService {
         }
 
         Match match= new Match(team1.getId(),totalScore1,team2.getId(), totalScore2);
-        Integer idMatch =matchRepository.add(match);
+        Integer idMatch =matchService.add(match);
         var ref = new Object() {
             int k = 0;
             int l = 0;
         };
         team1.getPlayers().forEach(player ->{
                 PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch,arrayOfScores1[ref.k]);
-                playerStatisticsRepository.add(playerStatisticsPerMatch);
+                playerStatisticsService.add(playerStatisticsPerMatch);
                 ref.k++; });
-        int l =0;
+
         team2.getPlayers().forEach(player ->{
-            PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch,arrayOfScores2[l]);
-            playerStatisticsRepository.add(playerStatisticsPerMatch);
+            PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch(player.getId(),idMatch,arrayOfScores2[ref.l]);
+            playerStatisticsService.add(playerStatisticsPerMatch);
             ref.l++; });
         teamService.updateScore(team1.getId(),team1.getScore());
         teamService.updateScore(team2.getId(),team2.getScore());

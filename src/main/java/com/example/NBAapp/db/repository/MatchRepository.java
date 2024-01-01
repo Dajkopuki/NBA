@@ -57,6 +57,11 @@ public class MatchRepository {
         }
     }
 
+    public List<Match> getMatches() {
+        final String sql = "SELECT * from matches_record";
+        return jdbcTemplate.query(sql,matchRowMapper);
+    }
+
     public void deleteAll() {
         final String sql = "TRUNCATE matches_record";
         jdbcTemplate.update(sql);

@@ -12,6 +12,7 @@ public interface PlayerService {
     void delete(int id);
     void updateScore(int id, int score);
     List<PlayerStatisticsPerMatch> getPlayerRecord(int id);
+    void setScoreToZero();
 
 
 }

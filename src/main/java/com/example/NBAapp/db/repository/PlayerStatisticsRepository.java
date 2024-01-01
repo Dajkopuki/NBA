@@ -60,6 +60,11 @@ public class PlayerStatisticsRepository {
         return jdbcTemplate.query(sql, playerStatisticsRowMapper, playerId);
     }
 
+    public List<PlayerStatisticsPerMatch> getPlayerStatistics () {
+        final String sql = "SELECT * from player_statistics";
+        return jdbcTemplate.query(sql,playerStatisticsRowMapper);
+    }
+
     public void deleteAll() {
         final String sql = "TRUNCATE player_statistics";
         jdbcTemplate.update(sql);

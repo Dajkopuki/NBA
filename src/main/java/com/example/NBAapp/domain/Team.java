@@ -77,19 +77,6 @@ public class Team implements Comparable<Team> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Team team = (Team) o;
-        return score == team.score && teamName.equals(team.teamName) && Objects.equals(couch, team.couch) && Objects.equals(players, team.players);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(teamName, score, couch, players);
-    }
-
-    @Override
     public int compareTo(Team o) {
         if (this.score != o.getScore()) {
             return o.getScore()- this.score;
@@ -97,4 +84,19 @@ public class Team implements Comparable<Team> {
         return this.teamName.compareTo(o.getTeamName());
 
         }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return Objects.equals(id, team.id) && teamName.equals(team.teamName) && Objects.equals(score, team.score) && Objects.equals(couch, team.couch) && Objects.equals(players, team.players);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, teamName, score, couch, players);
+    }
+
+
 }

@@ -83,4 +83,9 @@ public class TeamServiceImpl implements TeamService {
             playerRepository.updateScore(player.getId(), playerScore);
         });
     }
+
+    @Override
+    public void setScoreToZero() {
+        teamRepository.setScoreToZero();
+    }
 }

@@ -13,4 +13,5 @@ public interface TeamService {
     void delete(int id);
     void updateScore(int id, int score);
     void updateScoreEachPlayer(Team team);
+    void setScoreToZero();
 }
