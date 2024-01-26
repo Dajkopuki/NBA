@@ -1,19 +1,27 @@
 package com.example.NBAapp.domain;
 
+import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.Objects;
-
+@Entity
+@Table(name = "player_statistics")
 public class PlayerStatisticsPerMatch {
 
     @Nullable
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
     @NonNull
+    @Column(name = "player_id")
     private Integer playerId;
     @NonNull
+    @Column(name = "match_id")
     private Integer matchIdl;
     @NonNull
+    @Column(name = "score_from_match")
     private Integer scoreFromMatch;
 
     public PlayerStatisticsPerMatch() {

@@ -1,5 +1,6 @@
 package com.example.NBAapp.domain;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
@@ -8,21 +9,29 @@ import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Objects;
-
+@Entity
+@Table(name = "team")
 public class Team implements Comparable<Team> {
     @Nullable
-    @Null
+    @Null(groups = CreateValidationGroup.class)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @Id
     private Integer id;
     @NonNull
     @NotNull
     @Size(max=30)
+    @Column(name = "teamname")
     private String teamName;
     @Nullable
-    @Null
+    @Null(groups = CreateValidationGroup.class)
+    @Column(name = "score")
     private Integer score;
     @Nullable
+    @Transient
     private Couch couch;
     @Nullable
+    @Transient
     List<Player> players;
 
     public Team () {}

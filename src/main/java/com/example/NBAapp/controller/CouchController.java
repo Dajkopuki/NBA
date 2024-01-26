@@ -2,15 +2,15 @@ package com.example.NBAapp.controller;
 
 import com.example.NBAapp.db.service.api.CouchService;
 import com.example.NBAapp.domain.Couch;
-import com.example.NBAapp.domain.Player;
-import com.example.NBAapp.domain.Team;
-import jakarta.validation.Valid;
+import com.example.NBAapp.domain.CreateValidationGroup;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("couch")
@@ -23,9 +23,10 @@ public class CouchController {
     }
 
     @PostMapping
-    public ResponseEntity add(@RequestBody @Valid Couch couch, BindingResult bindingResult) {
+    public ResponseEntity add(@RequestBody @Validated (CreateValidationGroup.class) Couch couch, BindingResult bindingResult) {
         if(!bindingResult.hasErrors()) {
-            Integer id = couchService.add(couch);
+            Couch couchFromDb = couchService.add(couch);
+            Integer id = couchFromDb.getId();
             if (id != null) {
                 return new ResponseEntity(id, HttpStatus.CREATED);
             }
@@ -35,8 +36,8 @@ public class CouchController {
 
     @GetMapping("{id}")
     public ResponseEntity get(@PathVariable("id") int id) {
-        Couch couch = couchService.get(id);
-        if (couch !=null) {
+        Optional<Couch> couch = couchService.get(id);
+        if (couch.isPresent()) {
             return new ResponseEntity<>(couch,HttpStatus.OK);
         }
         return new ResponseEntity<>("Couch with id " + id + " does not exist",HttpStatus.NOT_FOUND);

@@ -8,35 +8,38 @@ import com.example.NBAapp.domain.PlayerStatisticsPerMatch;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerServiceImpl  implements PlayerService {
     private final PlayerRepository playerRepository;
     private final PlayerStatisticsRepository playerStatisticsRepository;
 
+
     public PlayerServiceImpl(PlayerRepository playerRepository, PlayerStatisticsRepository playerStatisticsRepository) {
         this.playerRepository = playerRepository;
         this.playerStatisticsRepository = playerStatisticsRepository;
+
     }
 
     @Override
-    public Player get(int id) {
-        return playerRepository.get(id);
+    public Optional<Player> get(int id) {
+        return playerRepository.findById(id);
     }
 
     @Override
-    public Integer add(Player player) {
-        return playerRepository.add(player);
+    public Player add(Player player) {
+        return playerRepository.save(player);
     }
 
     @Override
     public List<Player> getPlayers() {
-        return playerRepository.getPlayers();
+        return (List<Player>) playerRepository.findAll();
     }
 
     @Override
     public void delete(int id) {
-        playerRepository.delete(id);
+        playerRepository.deleteById(id);
     }
 
     @Override
@@ -45,9 +48,10 @@ public class PlayerServiceImpl  implements PlayerService {
     }
 
     @Override
-    public List<PlayerStatisticsPerMatch> getPlayerRecord(int id) {
-        return playerStatisticsRepository.getPlayerRecord(id);
+    public List<PlayerStatisticsPerMatch> getPlayerRecord(int playerId) {
+        return playerStatisticsRepository.getPlayerRecord(playerId);
     }
+
 
     @Override
     public void setScoreToZero() {

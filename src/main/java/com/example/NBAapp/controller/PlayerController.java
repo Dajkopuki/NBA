@@ -1,15 +1,17 @@
 package com.example.NBAapp.controller;
 
 import com.example.NBAapp.db.service.api.PlayerService;
+import com.example.NBAapp.domain.CreateValidationGroup;
 import com.example.NBAapp.domain.Player;
 import com.example.NBAapp.domain.PlayerStatisticsPerMatch;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("player")
@@ -23,9 +25,10 @@ public class PlayerController {
 
 
     @PostMapping
-    public ResponseEntity add (@RequestBody @Valid Player player, BindingResult bindingResult ) {
+    public ResponseEntity add (@RequestBody @Validated(CreateValidationGroup.class) Player player, BindingResult bindingResult ) {
         if(!bindingResult.hasErrors()) {
-            Integer id = playerService.add(player);
+            Player  playerFromDb = playerService.add(player);
+            Integer id = playerFromDb.getId();
             if (id != null) {
                 return new ResponseEntity<>(id, HttpStatus.CREATED);
             }
@@ -35,8 +38,8 @@ public class PlayerController {
 
     @GetMapping("{id}")
     public ResponseEntity get(@PathVariable("id") int id) {
-        Player player = playerService.get(id);
-        if (player !=null) {
+        Optional<Player> player = playerService.get(id);
+        if (player.isPresent()) {
             return new ResponseEntity<>(player,HttpStatus.OK);
         }
         return new ResponseEntity<>("Player with id " + id + " does not exist",HttpStatus.NOT_FOUND);
@@ -59,7 +62,7 @@ public class PlayerController {
 
     @DeleteMapping("{id}")
     public ResponseEntity delete(@PathVariable("id") int id){
-        if (playerService.get(id) !=null) {
+        if (playerService.get(id).isPresent()) {
             playerService.delete(id);
             return ResponseEntity.ok().build();
         }

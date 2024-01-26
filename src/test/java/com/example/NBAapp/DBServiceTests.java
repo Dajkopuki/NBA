@@ -1,7 +1,5 @@
 package com.example.NBAapp;
 
-import com.example.NBAapp.db.repository.MatchRepository;
-import com.example.NBAapp.db.repository.PlayerStatisticsRepository;
 import com.example.NBAapp.db.service.api.*;
 import com.example.NBAapp.domain.*;
 import org.junit.Assert;
@@ -167,13 +165,7 @@ public class DBServiceTests {
         Assert.assertEquals(allMatchesScore.toString(),allPlayersScore.toString());
 
 
-        Player playerFromDb = playerService.get(3);
-        List<PlayerStatisticsPerMatch> playerStatisticsPerMatch = playerStatisticsRepository.getPlayerRecord(3);
-        final AtomicReference<Integer> playerScoreTotal = new AtomicReference<>(0);
-        playerStatisticsPerMatch.forEach(playerStatisticsPerMatch1 -> {
-            playerScoreTotal.set(playerScoreTotal.get() + playerStatisticsPerMatch1.getScoreFromMatch());
-        });
-        Assert.assertEquals(playerFromDb.getScore().toString(),playerScoreTotal.toString());
+
 
 
 

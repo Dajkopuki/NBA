@@ -1,20 +1,30 @@
 package com.example.NBAapp.domain;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Null;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.Objects;
-
+@Entity
+@Table(name = "matches_record")
 public class Match {
     @Nullable
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name = "id")
     private Integer id;
     @NonNull
+    @Column (name = "team1_id")
     private Integer team1Id;
     @NonNull
+    @Column (name = "team1_score")
     private Integer team1Score;
     @NonNull
+    @Column (name = "team2_id")
     private Integer team2Id;
     @NonNull
+    @Column (name = "team2_score")
     private Integer team2Score;
 
     public Match( @NonNull Integer team1Id, @NonNull Integer team1Score, @NonNull Integer team2Id, @NonNull Integer team2Score) {

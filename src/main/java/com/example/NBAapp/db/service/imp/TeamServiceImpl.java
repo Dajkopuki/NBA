@@ -4,11 +4,14 @@ import com.example.NBAapp.db.repository.CouchRepository;
 import com.example.NBAapp.db.repository.PlayerRepository;
 import com.example.NBAapp.db.repository.TeamRepository;
 import com.example.NBAapp.db.service.api.TeamService;
-import com.example.NBAapp.domain.Player;
 import com.example.NBAapp.domain.Team;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class TeamServiceImpl implements TeamService {
 
@@ -16,51 +19,58 @@ public class TeamServiceImpl implements TeamService {
     private final PlayerRepository playerRepository;
     private final CouchRepository couchRepository;
 
-    public TeamServiceImpl(TeamRepository teamRepository, PlayerRepository playerRepository, CouchRepository couchRepository) {
+
+
+
+
+    public TeamServiceImpl(TeamRepository teamRepository, PlayerRepository playerRepository, CouchRepository couchRepository, CouchRepository couchRepositoryTest, TeamRepository teamRepositoryTest) {
         this.teamRepository = teamRepository;
         this.playerRepository = playerRepository;
         this.couchRepository = couchRepository;
+
+
+
     }
 
     @Override
-    public Team get(int id) {
-       return teamRepository.get(id);
+    public Optional<Team> get(int id) {
+       return teamRepository.findById(id);
     }
 
     @Override
     public Team getWithList(int id) {
-        Team team = teamRepository.get(id);
-        team.setPlayers(playerRepository.getPlayersFromTeam(id));
-        team.setCouch(couchRepository.getByTeam(id));
-        return team;
+        Optional<Team> team = teamRepository.findById(id);
+        team.get().setPlayers(playerRepository.getPlayersFromTeam(id));
+        team.get().setCouch(couchRepository.getByTeam(id));
+        return team.get();
     }
 
     @Override
     public List<Team> getTeams() {
-        return teamRepository.getTeams();
+        return (List<Team>) teamRepository.findAll();
     }
 
     @Override
     public List<Team> getTeamsWithList() {
-        List<Team> teams = teamRepository.getTeams();
+        List<Team> teams = (List<Team>) teamRepository.findAll();
         teams.forEach(team -> {team.setPlayers(playerRepository.getPlayersFromTeam(team.getId()));
                                team.setCouch(couchRepository.getByTeam(team.getId()));});
         return teams;
     }
 
     @Override
-    public Integer add(Team team) {
-         return teamRepository.add(team);
+    public Team add(Team team) {
+         return teamRepository.save(team);
     }
 
     @Override
     public void delete(int id) {
-     teamRepository.delete(id);
+     teamRepository.deleteById(id);
     }
 
     @Override
     public void updateScore(int id, int score) {
-        Team team =teamRepository.get(id);
+        Team team = teamRepository.findById(id).get();
         teamRepository.updateScore(id,team.getScore()+score);
     }
 

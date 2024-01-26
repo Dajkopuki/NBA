@@ -1,15 +1,18 @@
 package com.example.NBAapp.controller;
 
 import com.example.NBAapp.db.service.api.TeamService;
+import com.example.NBAapp.domain.CreateValidationGroup;
 import com.example.NBAapp.domain.Player;
 import com.example.NBAapp.domain.Team;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("team")
@@ -21,9 +24,10 @@ public class TeamController {
     }
 
     @PostMapping
-    public ResponseEntity add(@RequestBody @Valid   Team team, BindingResult bindingResult) {
+    public ResponseEntity add(@RequestBody @Validated (CreateValidationGroup.class) Team team, BindingResult bindingResult) {
         if(!bindingResult.hasErrors()) {
-            Integer id = teamService.add(team);
+            Team teamFromDb = teamService.add(team);
+            Integer id =teamFromDb.getId();
             if (id != null) {
                 return new ResponseEntity<>(id, HttpStatus.CREATED);
             }
@@ -33,8 +37,8 @@ public class TeamController {
 
     @GetMapping("{id}")
     public ResponseEntity get(@PathVariable("id") int id) {
-        Team team = teamService.get(id);
-        if (team !=null) {
+        Optional<Team> team = teamService.get(id);
+        if (team.isPresent()) {
             return new ResponseEntity<>(team,HttpStatus.OK);
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);

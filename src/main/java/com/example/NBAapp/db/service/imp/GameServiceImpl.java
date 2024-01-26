@@ -1,11 +1,11 @@
 package com.example.NBAapp.db.service.imp;
 
-import com.example.NBAapp.db.repository.TeamRepository;
 import com.example.NBAapp.db.service.api.*;
 import com.example.NBAapp.domain.Match;
 import com.example.NBAapp.domain.PlayerStatisticsPerMatch;
 import com.example.NBAapp.domain.Team;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +38,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    @Transactional
     public void restartGame() {
     playerService.setScoreToZero();
     teamService.setScoreToZero();
@@ -79,7 +80,7 @@ public class GameServiceImpl implements GameService {
         }
 
         Match match= new Match(team1.getId(),totalScore1,team2.getId(), totalScore2);
-        Integer idMatch =matchService.add(match);
+        Integer idMatch =matchService.add(match).getId();
         var ref = new Object() {
             int k = 0;
             int l = 0;

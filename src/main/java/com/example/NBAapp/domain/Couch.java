@@ -1,5 +1,6 @@
 package com.example.NBAapp.domain;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
@@ -7,21 +8,28 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.Objects;
-
+@Entity
+@Table(name = "couch")
 public class Couch {
     @Nullable
-    @Null
+    @Null(groups = CreateValidationGroup.class)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
     @NonNull
     @NotNull
     @Size(max=20)
+    @Column (name = "name")
     private String Name;
     @NonNull
     @NotNull
     @Size(max=20)
+    @Column (name = "surname")
     private String Surname;
     @NonNull
     @NotNull
+    @Column (name = "teamid")
     private Integer TeamId;
 
     public Couch() {}

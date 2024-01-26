@@ -6,7 +6,8 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PlayerStatisticsRowMapper implements RowMapper<PlayerStatisticsPerMatch> {
+public class
+PlayerStatisticsRowMapper implements RowMapper<PlayerStatisticsPerMatch> {
     @Override
     public PlayerStatisticsPerMatch mapRow(ResultSet rs, int rowNum) throws SQLException {
         PlayerStatisticsPerMatch playerStatisticsPerMatch = new PlayerStatisticsPerMatch();
