@@ -5,6 +5,7 @@ import com.example.NBAapp.db.repository.PlayerStatisticsRepository;
 import com.example.NBAapp.db.service.api.PlayerService;
 import com.example.NBAapp.domain.Player;
 import com.example.NBAapp.domain.PlayerStatisticsPerMatch;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class PlayerServiceImpl  implements PlayerService {
     private final PlayerRepository playerRepository;
     private final PlayerStatisticsRepository playerStatisticsRepository;
 
-
+    @Autowired
     public PlayerServiceImpl(PlayerRepository playerRepository, PlayerStatisticsRepository playerStatisticsRepository) {
         this.playerRepository = playerRepository;
         this.playerStatisticsRepository = playerStatisticsRepository;

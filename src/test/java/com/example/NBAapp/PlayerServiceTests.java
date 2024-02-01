@@ -1,55 +1,78 @@
 package com.example.NBAapp;
 
+import com.example.NBAapp.db.repository.PlayerRepository;
+import com.example.NBAapp.db.repository.PlayerStatisticsRepository;
 import com.example.NBAapp.db.service.api.PlayerService;
 import com.example.NBAapp.db.service.imp.PlayerServiceImpl;
 import com.example.NBAapp.domain.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import com.example.NBAapp.NbAappApplication;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
-@ExtendWith(MockitoExtension.class)
+@RunWith(MockitoJUnitRunner.class)
 public class PlayerServiceTests {
-
-    private PlayerService playerService;
 
     @Mock
     private PlayerRepository playerRepository;
+    @InjectMocks
+    private PlayerServiceImpl playerService;
 
-    @Mock
-    private PlayerStatisticsRepository playerStatisticsRepository;
 
-    @Before
-    public void init() {
-        playerService = new PlayerServiceImpl(playerRepository, playerStatisticsRepository, playerRepositoryTest);
-    }
 
     @Test
     public void addPlayer(){
-        Player player1 = new Player("Milan","Vasko", 555);
+        Player player = new Player("Milan","Vasko", 555);
 
-        int playerId = 123;
-        Mockito.when(playerRepository.add(any(Player.class))).thenReturn(playerId);
+        Mockito.when(playerRepository.save(any(Player.class))).thenReturn(player);
 
-        Integer addedPlayerId = playerService.add(player1);
+        Player addedPlayer = playerService.add(player);
 
-        assertEquals(playerId, addedPlayerId);
+        assertEquals(player.getId(), addedPlayer.getId());
     }
 
     @Test
-    public void addPlayerFailed(){
-        Player player1 = new Player("Milan","Vasko", 555);
+    public void getPlayer(){
+        Player player = new Player("Milan","Vasko", 555);
 
-        int playerId = 123;
-        Mockito.when(playerRepository.add(any(Player.class))).thenThrow(new IllegalArgumentException("something went wrong"));
+        Mockito.when(playerRepository.findById(any(Integer.class))).thenReturn(Optional.of(player));
 
-        Integer addedPlayerId = playerService.add(player1);
+        Player playerFromDb = playerService.get(5).get();
 
-        assertEquals(playerId, addedPlayerId);
+        assertEquals(player.getId(), playerFromDb.getId());
+
     }
+
+    @Test
+    public void getPlayers(){
+        Player player = new Player("Milan","Vasko", 555);
+        List<Player> players = new ArrayList<>();
+        players.add(player);
+
+        Mockito.when(playerRepository.findAll()).thenReturn(players);
+
+        List<Player> playersfromdb = playerService.getPlayers();
+        assertEquals(1,playersfromdb.size());
+    }
+
+
+
+
 }
