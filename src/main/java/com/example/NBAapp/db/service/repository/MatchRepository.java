@@ -1,4 +1,4 @@
-package com.example.NBAapp.db.repository;
+package com.example.NBAapp.db.service.repository;
 
 import com.example.NBAapp.domain.Match;
 import org.springframework.data.repository.CrudRepository;

@@ -1,13 +1,12 @@
 package com.example.NBAapp.db.service.imp;
 
-import com.example.NBAapp.db.repository.CouchRepository;
-import com.example.NBAapp.db.repository.PlayerRepository;
-import com.example.NBAapp.db.repository.TeamRepository;
+import com.example.NBAapp.db.service.repository.CouchRepository;
+import com.example.NBAapp.db.service.repository.PlayerRepository;
+import com.example.NBAapp.db.service.repository.TeamRepository;
 import com.example.NBAapp.db.service.api.TeamService;
 import com.example.NBAapp.domain.Team;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

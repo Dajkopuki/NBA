@@ -1,7 +1,7 @@
 package com.example.NBAapp.db.service.imp;
 
-import com.example.NBAapp.db.repository.PlayerRepository;
-import com.example.NBAapp.db.repository.PlayerStatisticsRepository;
+import com.example.NBAapp.db.service.repository.PlayerRepository;
+import com.example.NBAapp.db.service.repository.PlayerStatisticsRepository;
 import com.example.NBAapp.db.service.api.PlayerService;
 import com.example.NBAapp.domain.Player;
 import com.example.NBAapp.domain.PlayerStatisticsPerMatch;

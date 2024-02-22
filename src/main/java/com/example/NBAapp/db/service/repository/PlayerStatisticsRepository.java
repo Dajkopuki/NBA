@@ -1,6 +1,7 @@
-package com.example.NBAapp.db.repository;
+package com.example.NBAapp.db.service.repository;
 
 import com.example.NBAapp.domain.PlayerStatisticsPerMatch;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

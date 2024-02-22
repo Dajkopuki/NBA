@@ -1,6 +1,6 @@
 package com.example.NBAapp.db.service.imp;
 
-import com.example.NBAapp.db.repository.PlayerStatisticsRepository;
+import com.example.NBAapp.db.service.repository.PlayerStatisticsRepository;
 import com.example.NBAapp.db.service.api.PlayerStatisticsService;
 import com.example.NBAapp.domain.PlayerStatisticsPerMatch;
 import org.springframework.stereotype.Service;

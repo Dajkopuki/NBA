@@ -1,6 +1,6 @@
 package com.example.NBAapp.db.service.imp;
 
-import com.example.NBAapp.db.repository.MatchRepository;
+import com.example.NBAapp.db.service.repository.MatchRepository;
 import com.example.NBAapp.db.service.api.MatchService;
 import com.example.NBAapp.domain.Match;
 import org.springframework.stereotype.Service;

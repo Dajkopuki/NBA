@@ -1,6 +1,6 @@
 package com.example.NBAapp.db.service.imp;
 
-import com.example.NBAapp.db.repository.CouchRepository;
+import com.example.NBAapp.db.service.repository.CouchRepository;
 import com.example.NBAapp.db.service.api.CouchService;
 import com.example.NBAapp.domain.Couch;
 import org.springframework.stereotype.Service;
